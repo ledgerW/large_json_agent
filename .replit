@@ -1,15 +1,8 @@
-
-run = ["uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]
+run = ["python", "main.py"]
 modules = ["python-3.11"]
-
-hidden = [".pythonlibs"]
 
 [nix]
 channel = "stable-24_05"
-
-[deployment]
-run = ["uvicorn", "main:app", "--host", "0.0.0.0"]
-deploymentTarget = "cloudrun"
 
 [[ports]]
 localPort = 8000
@@ -22,34 +15,10 @@ externalPort = 2024
 [env]
 PYTHONPATH = "${PYTHONPATH}:${REPL_HOME}"
 
-[languages]
-
-[languages.python3]
-pattern = "**/*.py"
-
-[languages.python3.languageServer]
-start = "pylsp"
-
-[unitTest]
-language = "python3"
-
-[[hints]]
-regex = "Port ([0-9]+) is in use"
-allowedHosts = ["localhost"]
-
-# Add LangGraph Dev workflow
-[[hints]]
-regex = "LangGraph Dev Server"
-allowedHosts = ["0.0.0.0"]
-
-[auth]
-pageEnabled = false
-buttonEnabled = false
-
 [[runners]]
 name = "FastAPI Server"
 language = "python3"
-onStart = ["uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]
+onStart = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
 [[runners]]
 name = "LangGraph Dev"
