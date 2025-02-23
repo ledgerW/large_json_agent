@@ -5,12 +5,13 @@ modules = ["python-3.11"]
 channel = "stable-24_05"
 
 [[ports]]
-localPort = 8000
-externalPort = 80
+localPort = 2024
+externalPort = 3000
+exposeLocalhost = true
 
 [[ports]]
-localPort = 2024
-externalPort = 2024
+localPort = 8000
+externalPort = 80
 
 [env]
 PYTHONPATH = "${PYTHONPATH}:${REPL_HOME}"
@@ -24,3 +25,22 @@ onStart = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--relo
 name = "LangGraph Dev"
 language = "python3"
 onStart = ["langgraph", "dev"]
+
+[workflows]
+runButton = "FastAPI Server"
+
+[[workflows.workflow]]
+name = "FastAPI Server"
+author = 22066494
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+[[workflows.workflow]]
+name = "LangGraph Dev"
+author = 22066494
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "langgraph dev"
