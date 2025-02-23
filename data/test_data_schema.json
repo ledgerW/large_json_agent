@@ -1,0 +1,211 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "metadata": {
+        "type": "object",
+        "properties": {
+          "generated_at": {"type": "string", "format": "date-time"},
+          "version": {"type": "string"},
+          "source": {"type": "string"}
+        },
+        "required": ["generated_at", "version", "source"]
+      },
+      "users": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string", "format": "uuid"},
+            "name": {"type": "string"},
+            "email": {"type": "string", "format": "email"},
+            "profile": {
+              "type": "object",
+              "properties": {
+                "age": {"type": "integer", "minimum": 0},
+                "gender": {"type": "string", "enum": ["male", "female", "other"]},
+                "preferences": {
+                  "type": "object",
+                  "properties": {
+                    "newsletter": {"type": "boolean"},
+                    "notifications": {
+                      "type": "array",
+                      "items": {"type": "string", "enum": ["email", "sms", "push"]}
+                    },
+                    "theme": {"type": "string", "enum": ["light", "dark"]}
+                  },
+                  "required": ["newsletter", "notifications", "theme"]
+                },
+                "security": {
+                  "type": "object",
+                  "properties": {
+                    "password_last_changed": {"type": "string", "format": "date-time"},
+                    "multi_factor_enabled": {"type": "boolean"},
+                    "login_attempts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {"type": "string", "format": "date-time"},
+                          "success": {"type": "boolean"}
+                        },
+                        "required": ["timestamp", "success"]
+                      }
+                    }
+                  },
+                  "required": ["password_last_changed", "multi_factor_enabled", "login_attempts"]
+                }
+              },
+              "required": ["age", "gender", "preferences", "security"]
+            },
+            "addresses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {"type": "string", "enum": ["home", "work"]},
+                  "street": {"type": "string"},
+                  "city": {"type": "string"},
+                  "state": {"type": "string"},
+                  "zip": {"type": "string"},
+                  "country": {"type": "string"},
+                  "geo": {
+                    "type": "object",
+                    "properties": {
+                      "lat": {"type": "number"},
+                      "lng": {"type": "number"}
+                    },
+                    "required": ["lat", "lng"]
+                  }
+                },
+                "required": ["type", "street", "city", "state", "zip", "country", "geo"]
+              }
+            },
+            "orders": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "order_id": {"type": "string"},
+                  "date": {"type": "string", "format": "date-time"},
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "product_id": {"type": "string"},
+                        "name": {"type": "string"},
+                        "category": {"type": "string"},
+                        "price": {"type": "number"},
+                        "quantity": {"type": "integer", "minimum": 1},
+                        "warranty": {
+                          "type": "object",
+                          "properties": {
+                            "duration": {"type": "string"},
+                            "coverage": {"type": "string"}
+                          },
+                          "required": ["duration", "coverage"]
+                        }
+                      },
+                      "required": ["product_id", "name", "category", "price", "quantity", "warranty"]
+                    }
+                  },
+                  "total": {"type": "number"},
+                  "status": {"type": "string", "enum": ["pending", "shipped", "delivered", "cancelled"]},
+                  "shipping_details": {
+                    "type": "object",
+                    "properties": {
+                      "carrier": {"type": "string"},
+                      "tracking_number": {"type": "string"},
+                      "estimated_delivery": {"type": "string", "format": "date-time"}
+                    },
+                    "required": ["carrier", "tracking_number", "estimated_delivery"]
+                  }
+                },
+                "required": ["order_id", "date", "items", "total", "status", "shipping_details"]
+              }
+            }
+          },
+          "required": ["id", "name", "email", "profile", "addresses", "orders"]
+        }
+      },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string"},
+            "name": {"type": "string"},
+            "category": {"type": "string"},
+            "price": {"type": "number"},
+            "stock": {"type": "integer", "minimum": 0},
+            "ratings": {
+              "type": "object",
+              "properties": {
+                "average": {"type": "number", "minimum": 0, "maximum": 5},
+                "reviews": {"type": "integer", "minimum": 0}
+              },
+              "required": ["average", "reviews"]
+            },
+            "specifications": {
+              "type": "object",
+              "properties": {
+                "processor": {"type": "string"},
+                "ram": {"type": "string"},
+                "storage": {"type": "string"}
+              },
+              "required": ["processor", "ram", "storage"]
+            }
+          },
+          "required": ["id", "name", "category", "price", "stock", "ratings", "specifications"]
+        }
+      },
+      "transactions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "transaction_id": {"type": "string"},
+            "user_id": {"type": "string", "format": "uuid"},
+            "order_id": {"type": "string"},
+            "payment_method": {"type": "string", "enum": ["credit_card", "paypal", "bank_transfer"]},
+            "amount": {"type": "number"},
+            "status": {"type": "string", "enum": ["pending", "completed", "failed"]},
+            "timestamp": {"type": "string", "format": "date-time"},
+            "fraud_check": {
+              "type": "object",
+              "properties": {
+                "risk_score": {"type": "integer", "minimum": 0, "maximum": 100},
+                "flags": {"type": "array", "items": {"type": "string"}}
+              },
+              "required": ["risk_score", "flags"]
+            }
+          },
+          "required": ["transaction_id", "user_id", "order_id", "payment_method", "amount", "status", "timestamp", "fraud_check"]
+        }
+      },
+      "logs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "timestamp": {"type": "string", "format": "date-time"},
+            "level": {"type": "string", "enum": ["INFO", "WARNING", "ERROR"]},
+            "message": {"type": "string"},
+            "user_id": {"type": "string"},
+            "details": {
+              "type": "object",
+              "properties": {
+                "order_id": {"type": "string"},
+                "error_code": {"type": "string"},
+                "description": {"type": "string"}
+              }
+            }
+          },
+          "required": ["timestamp", "level", "message"]
+        }
+      }
+    },
+    "required": ["metadata", "users", "products", "transactions", "logs"]
+  }
+  
