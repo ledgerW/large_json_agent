@@ -1,9 +1,10 @@
 from pydantic import BaseModel
 from typing import Union
+import json
 
 from fastapi import FastAPI
 
-from agents.agent import large_json_agent
+from agents.duckdb_json_agent import large_json_agent
 
 
 app = FastAPI()
@@ -24,7 +25,7 @@ class Message(BaseModel):
 
 
 class QueryOutput(BaseModel):
-    messages: list[Message]
+    message: Message
 
 
 
@@ -35,18 +36,26 @@ def read_root():
 
 @app.post("/query_json", response_model=QueryOutput)
 async def query_json(user_input: UserInput):
-    user_input = f"""
+    # Get available sections from the schema
+    json_file_path = "data/test_data.json"
+
+    with open(json_file_path, "r") as f:
+        json_data = json.load(f)
+    json_sections = list(json_data.keys())
+    json_sections_str = "\n".join([f"- {section}" for section in json_sections])
+
+
+    USER_INPUT_TEMPLATE = f"""
     JSON Data file path: data/test_data.json
-    JSON Schema file path: data/test_data_schema.json
     
-    Question: {user_input}
+    Question: {user_input.user_input}
     """
 
     input = {
         "messages": [
             {
                 "role": "user",
-                "content": user_input
+                "content": USER_INPUT_TEMPLATE
             }
         ]
     }
@@ -55,16 +64,20 @@ async def query_json(user_input: UserInput):
         stream_output = []
         for s in stream:
             message = s["messages"][-1]
+            # Create a Message object with proper structure
             if isinstance(message, tuple):
                 print(message)
-                stream_output.append(message)
+                # Convert tuple to MessageContent
+                message_content = MessageContent(role=message[0], content=message[1])
+                stream_output.append(Message(messages=[message_content]))
             else:
                 message.pretty_print()
-                stream_output.append(message)
-        return stream_output
+                # Assuming message is already in correct format
+                stream_output.append(Message(messages=[message]))
+        return QueryOutput(messages=stream_output)
 
     stream = large_json_agent.stream(input, stream_mode="values")
     stream_messages = print_stream(stream)
-    return stream_messages
+    return stream_messages.message[-1]
 
     #return await large_json_agent.ainvoke(query_input)

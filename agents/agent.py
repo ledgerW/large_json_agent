@@ -3,9 +3,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import json
-from spyql.query import Query
+import orjson
+from pandas import json_normalize
+import duckdb
 from langchain_openai import ChatOpenAI
-from langgraph_supervisor import create_supervisor
 from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import tool
 from typing import Annotated
@@ -109,157 +110,184 @@ def view_available_sections(
     return f"Available sections: {', '.join(sections_list)}"
 
 
-
-
-def query_json(query: str, json_file_path: str) -> str:
+def query_json(query: str, json_file_path: str, section: str = "") -> str:
     """
-    Query a JSON file using SpyQL.
+    Query a specific section of a JSON file using DuckDB with flattened data structure.
     
-    This function loads the JSON file and runs the provided SpyQL query against it.
-    SpyQL's powerful query syntax can directly access nested data without needing
-    separate path navigation.
+    This function loads the JSON file using orjson for speed, extracts the specified section,
+    normalizes the nested structure using pandas json_normalize, and then queries it using DuckDB.
     
     Args:
-        query: SpyQL query to execute on the JSON data. Can use dot notation 
-              to access nested fields directly in the query.
+        query: SQL query to execute on the flattened data
         json_file_path: Path to the JSON file to query
+        section: Top-level section key to query (empty string means query entire file)
         
     Returns:
-        The query results as a string, or an error message if the query fails
+        The query results as a string
     """
-    #try:
-    # Create SpyQL query with the JSON file loaded as a variable
-    spyql_query = Query(
-        query,
-        json_obj_files={"data": json_file_path}  # Load JSON file as 'data' variable
-    )
-    result = spyql_query()  # Execute query
-    return str(result)
-    #except Exception as e:
-    #    return f"Error querying JSON: {str(e)}"
+    try:
+        # Read JSON with orjson for better performance
+        with open(json_file_path, 'rb') as f:
+            data = orjson.loads(f.read())
+        
+        # Extract specific section if provided
+        if section:
+            if section not in data:
+                return f"Error: Section '{section}' not found in JSON data"
+            data = data[section]
+            
+        # Handle both single object and list of objects
+        if isinstance(data, dict):
+            data = [data]
+            
+        # Use pandas json_normalize to flatten nested structures
+        df = json_normalize(data, sep='.')
+        
+        # Create DuckDB connection and register DataFrame
+        con = duckdb.connect()
+        con.register('json_data', df)
+        
+        # Execute query
+        result = con.execute(query).df()
+        
+        # Convert result to string representation
+        return result.to_string()
+        
+    except Exception as e:
+        return f"Error querying JSON: {str(e)}"
 
 
 @tool("query_json_data")
 def query_json_tool(
-    query: Annotated[str, """The SPyQL query to execute. Supports SPyQL syntax ONLY."""],
-    json_file_path: Annotated[str, "Path to the JSON file to query"]
+    query: Annotated[str, """The SQL query to execute against the flattened JSON data. Uses standard SQL syntax."""],
+    json_file_path: Annotated[str, "Path to the JSON file to query"],
+    section: Annotated[str, "Optional top-level section key to query (e.g., 'users', 'transactions'). Leave empty to query entire file."] = ""
 ) -> Annotated[str, "Query results as a string"]:
     """
-    Use this tool to query the JSON data file using SPyQL's query syntax.
+    Use this tool to query a specific section of the JSON data file using SQL via DuckDB.
     
-    SPyQL provides querying capabilities with SQL syntax plus Python expressions.
-    The JSON file is loaded into a 'data' variable that can be queried.
+    The JSON data is automatically flattened with nested objects and arrays expanded
+    into columns using dot notation. Arrays are properly maintained as lists where appropriate.
+    
+    You can specify a top-level section to query, which helps focus the analysis on a specific
+    part of the data. For example:
+    - section="users" will only query the users array/object
+    - section="transactions" will only query the transactions section
+    - empty section will query the entire file
+    
+    For example, a nested structure in the users section like:
+    {
+        "users": {
+            "name": "John",
+            "addresses": [
+                {"type": "home", "city": "NY"},
+                {"type": "work", "city": "SF"}
+            ]
+        }
+    }
+    
+    becomes columns like:
+    name, addresses
+    
+    Where addresses remains a proper array that can be queried using DuckDB's array functions.
+    
+    Example queries:
+    - Basic nested field: SELECT name FROM json_data
+    - Array operations: SELECT addresses[0].city FROM json_data
+    - Array unnesting: SELECT UNNEST(addresses).city FROM json_data
+    
+    Use standard SQL syntax along with DuckDB's array handling functions when needed.
     """
-    return query_json(query, json_file_path)
+    return query_json(query, json_file_path, section)
 
-
-
-
-
-# Get available sections from the schema
-schema_path = "data/test_data_schema.json"
-json_file_path = "data/test_data.json"
-
-with open(schema_path, "r") as f:
-    schema_data = json.load(f)
-json_sections = list(schema_data.get("properties", {}).keys())
 
 
 
 system_prompt = """
-You are an expert JSON data analyst that uses SpyQL to query JSON data.
-You are given a JSON schema and a JSON data file, with which you must answer questions
-about the data.
+You are an expert JSON data analyst specializing in SQL queries over complex nested JSON data structures.
+You have access to a JSON schema and a JSON data file, which you'll use to answer questions about the data.
 
-You must use SpyQL to query the data, and you must use the schema to understand how to
-query the data.
+The data is automatically normalized into a SQL-queryable format where:
+- Nested objects are flattened using dot notation (e.g., user.profile.name)
+- Arrays are preserved as queryable lists
+- Complex nested structures are maintained in a way that enables sophisticated queries
 
-The data and the schema are both very large and complex, so you must use the tools, and
-you must use the schema to understand how to query the data.
+You must always:
+1. Use SQL to understand the schema first by running:
+   - SELECT * FROM information_schema.columns WHERE table_name = 'json_data' to get detailed column info
+   - DESCRIBE or SHOW COLUMNS to examine available fields
+   - SELECT * FROM json_data LIMIT 1 to see sample data structure 
+   - Check array fields with ARRAY_LENGTH() where relevant
+2. Write efficient and precise SQL queries that match the data structure
+3. Utilize DuckDB's advanced features for complex operations
 
-SPyQL Query syntax:
-    [ IMPORT python_module [ AS identifier ] [, ...] ]
-    SELECT [ DISTINCT | PARTIALS ]
-        [ * | python_expression [ AS output_column_name ] [, ...] ]
-        [ FROM csv | spy | text | python_expression | json [ EXPLODE path ] ]
-        [ WHERE python_expression ]
-        [ GROUP BY output_column_number | python_expression  [, ...] ]
-        [ ORDER BY output_column_number | python_expression
-            [ ASC | DESC ] [ NULLS { FIRST | LAST } ] [, ...] ]
-        [ LIMIT row_count ]
-        [ OFFSET num_rows_to_skip ]
-        [ TO csv | json | spy | sql | pretty | plot ]
-    
-    Example queries:
-      Basic query:
-        SELECT .my_key
-        FROM data
-      Nested query:
-        SELECT row.my_key
-        FROM data
-      Dictionary query:
-        SELECT row['my_key']
-        FROM data
+Example Queries (from simple to complex):
 
-      With WHERE clause (uses python expressions):
-        SELECT .name
-        FROM [
-            {"name": "Alice", "age": 20, "salary": 30.0},
-            {"name": "Bob", "age": 30, "salary": 12.0},
-            {"name": "Charles", "age": 40, "salary": 6.0},
-            {"name": "Daniel", "age": 43, "salary": 0.40},
-        ]
-        WHERE .age > 30 and .salary < 10.0 or .name.startswith('D')
+Basic Queries:
+- Simple field selection:
+  SELECT u.name, u.email 
+  FROM (SELECT UNNEST(data.users) AS u FROM json_data AS data) AS users
 
+- Filtering with nested fields:
+  SELECT u.name, u.profile.preferences.theme
+  FROM (SELECT UNNEST(data.users) AS u FROM json_data AS data) AS users 
+  WHERE u.profile.preferences.theme = 'dark'
 
-      Group by and order by:
-        SELECT .name, .score
-        FROM json
-        GROUP BY .department
-        ORDER BY .score DESC NULLS LAST
-        LIMIT 5
-        OFFSET 1
+Intermediate Queries:
+- Array operations:
+  SELECT 
+    u.name,
+    u.orders[0].date as first_order_date,
+    ARRAY_LENGTH(u.orders) as total_orders
+  FROM (SELECT UNNEST(data.users) AS u FROM json_data AS data) AS users
 
+- Array unnesting with aggregation:
+  SELECT 
+    u.name,
+    COUNT(*) as total_items
+  FROM (SELECT UNNEST(data.users) AS u FROM json_data AS data) AS users,
+       UNNEST(u.orders) AS o
+  GROUP BY u.name
 
-      Group by and order by with aggregate function:
-        SELECT .player_name, sum_agg(.score) AS total_score
-        FROM json
-        GROUP BY 1
-        ORDER BY 1
+Advanced Queries:
+- Complex array manipulations:
+  SELECT 
+    u.name,
+    COUNT(CASE WHEN o.status = 'completed' THEN 1 END) as completed_orders,
+    ARRAY_AGG(DISTINCT i.product_id) as purchased_products
+  FROM (SELECT UNNEST(data.users) AS u FROM json_data AS data) AS users
+  LEFT JOIN UNNEST(u.orders) AS o
+  LEFT JOIN UNNEST(o.items) AS i
+  GROUP BY u.name
 
+- Nested JSON aggregations with window functions:
+  WITH user_orders AS (
+    SELECT 
+      u.name,
+      o.date as order_date,
+      ROW_NUMBER() OVER (PARTITION BY u.id ORDER BY o.date) as order_num
+    FROM (SELECT UNNEST(data.users) AS u FROM json_data AS data) AS users
+    LEFT JOIN UNNEST(u.orders) AS o
+  )
+  SELECT 
+    name,
+    order_date,
+    order_num,
+    DATE_DIFF('day', LAG(order_date) OVER (PARTITION BY name ORDER BY order_date), order_date) as days_since_last_order
+  FROM user_orders
 
-      Explode and JSON output:
-        SELECT .name, .departments
-        FROM [
-            {"name": "Alice", "departments": [1,4]},
-            {"name": "Bob", "departments": [2]},
-            {"name": "Charles", "departments": []}
-        ]
-        EXPLODE .departments
-        TO json
-
-        Output:
-        {"name": "Alice", "departments": 1}
-        {"name": "Alice", "departments": 4}
-        {"name": "Bob", "departments": 2}
-
-
-      Pretty Output:
-        SELECT .id, .name
-        FROM json
-        TO pretty
-
-        Output:
-        id  name
-        -----  -----------
-        23635  Jerry Green
-        23636  John Wayne 
+Remember to:
+- the JSON data is very large and complex, so you must use SQL to understand the schema first
+- Leverage DuckDB's full SQL capabilities including window functions, CTEs, and subqueries
+- Write queries that handle NULL values and edge cases appropriately
+- Use appropriate array functions (UNNEST, ARRAY_AGG, ARRAY_LENGTH) for nested data
+- Consider performance implications when dealing with large nested structures
 """
 
 # The Schema Agent
 large_json_agent = create_react_agent(
     model=model,
-    tools=[view_available_sections, view_schema_section, query_json_tool],
+    tools=[query_json_tool],
     name="large_json_analyst",
     prompt=system_prompt
 )

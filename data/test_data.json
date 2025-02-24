@@ -58,14 +58,6 @@
                 "price": 999.99,
                 "quantity": 1,
                 "warranty": {"duration": "2 years", "coverage": "full"}
-              },
-              {
-                "product_id": "P-67890",
-                "name": "Wireless Mouse",
-                "category": "Accessories",
-                "price": 49.99,
-                "quantity": 2,
-                "warranty": {"duration": "1 year", "coverage": "limited"}
               }
             ],
             "total": 1099.97,
@@ -77,6 +69,312 @@
             }
           }
         ]
+      },
+      {
+        "id": "b2c3d4e5-f6g7-8901-2345-6789abcdef01",
+        "name": "Jane Smith",
+        "email": "janesmith@example.com",
+        "profile": {
+          "age": 28,
+          "gender": "female",
+          "preferences": {
+            "newsletter": false,
+            "notifications": ["push", "in-app"],
+            "theme": "light",
+            "language": "es-ES",
+            "accessibility": {
+              "high_contrast": true,
+              "font_size": "large"
+            }
+          },
+          "security": {
+            "password_last_changed": "2025-01-15T08:30:00Z",
+            "multi_factor_enabled": true,
+            "backup_codes_generated": true,
+            "security_questions": ["q1", "q2"],
+            "login_attempts": [
+              {"timestamp": "2025-02-20T14:00:00Z", "success": true, "device": "iPhone 15"},
+              {"timestamp": "2025-02-19T09:15:00Z", "success": true, "device": "MacBook Pro"}
+            ]
+          }
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "789 Pine Avenue",
+            "unit": "Apt 4B",
+            "city": "San Francisco",
+            "state": "CA",
+            "zip": "94105",
+            "country": "USA",
+            "geo": {"lat": 37.7749, "lng": -122.4194},
+            "delivery_instructions": "Ring doorbell twice"
+          }
+        ],
+        "orders": [
+          {
+            "order_id": "ORD-002",
+            "date": "2025-02-01T15:30:00Z",
+            "items": [
+              {
+                "product_id": "P-34567",
+                "name": "Smart Watch",
+                "category": "Wearables",
+                "price": 299.99,
+                "quantity": 1,
+                "warranty": {"duration": "2 years", "coverage": "premium"},
+                "customization": {
+                  "color": "rose gold",
+                  "engraving": "JS2025"
+                }
+              }
+            ],
+            "total": 299.99,
+            "status": "delivered",
+            "shipping_details": {
+              "carrier": "FedEx",
+              "tracking_number": "FX123456789",
+              "estimated_delivery": "2025-02-05T12:00:00Z",
+              "actual_delivery": "2025-02-04T14:23:00Z",
+              "signature_required": true
+            },
+            "gift": {
+              "is_gift": true,
+              "message": "Happy Birthday!",
+              "gift_wrap": true
+            }
+          }
+        ],
+        "subscription": {
+          "plan": "premium",
+          "start_date": "2024-12-01T00:00:00Z",
+          "renewal_date": "2025-12-01T00:00:00Z",
+          "payment_method": "recurring_card",
+          "status": "active"
+        }
+      },
+      {
+        "id": "c3d4e5f6-g7h8-9012-3456-789abcdef012",
+        "name": "Michael Chen",
+        "email": "mchen@example.com",
+        "profile": {
+          "age": 42,
+          "gender": "male",
+          "preferences": {
+            "newsletter": true,
+            "notifications": ["email", "push"],
+            "theme": "system",
+            "language": "en-US"
+          },
+          "security": {
+            "password_last_changed": "2025-01-20T16:45:00Z",
+            "multi_factor_enabled": true,
+            "login_attempts": [
+              {"timestamp": "2025-02-20T09:30:00Z", "success": true, "device": "Android Pixel 7"},
+              {"timestamp": "2025-02-19T14:20:00Z", "success": true, "device": "Windows PC"}
+            ]
+          }
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "567 Cherry Lane",
+            "unit": "Suite 203",
+            "city": "Seattle",
+            "state": "WA",
+            "zip": "98101",
+            "country": "USA",
+            "geo": {"lat": 47.6062, "lng": -122.3321}
+          }
+        ],
+        "orders": [
+          {
+            "order_id": "ORD-003",
+            "date": "2025-02-10T11:20:00Z",
+            "items": [
+              {
+                "product_id": "P-12345",
+                "name": "Laptop",
+                "category": "Electronics",
+                "price": 999.99,
+                "quantity": 2,
+                "warranty": {"duration": "3 years", "coverage": "premium"}
+              }
+            ],
+            "total": 2099.98,
+            "status": "processing",
+            "shipping_details": {
+              "carrier": "DHL",
+              "tracking_number": "DHL987654321",
+              "estimated_delivery": "2025-02-15T12:00:00Z"
+            }
+          }
+        ]
+      },
+      {
+        "id": "d4e5f6g7-h8i9-0123-4567-89abcdef0123",
+        "name": "Sarah Williams",
+        "email": "swilliams@example.com",
+        "profile": {
+          "age": 31,
+          "gender": "female",
+          "preferences": {
+            "newsletter": false,
+            "notifications": ["sms"],
+            "theme": "light"
+          },
+          "security": {
+            "password_last_changed": "2025-02-01T08:15:00Z",
+            "multi_factor_enabled": true,
+            "login_attempts": [
+              {"timestamp": "2025-02-21T16:45:00Z", "success": true}
+            ]
+          }
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "890 Maple Drive",
+            "city": "Austin",
+            "state": "TX",
+            "zip": "78701",
+            "country": "USA",
+            "geo": {"lat": 30.2672, "lng": -97.7431}
+          }
+        ],
+        "orders": [
+          {
+            "order_id": "ORD-004",
+            "date": "2025-02-18T13:15:00Z",
+            "items": [
+              {
+                "product_id": "P-34567",
+                "name": "Smart Watch",
+                "category": "Wearables",
+                "price": 299.99,
+                "quantity": 1,
+                "warranty": {"duration": "2 years", "coverage": "standard"},
+                "customization": {
+                  "color": "silver",
+                  "engraving": "SW2025"
+                }
+              }
+            ],
+            "total": 299.99,
+            "status": "shipped",
+            "shipping_details": {
+              "carrier": "USPS",
+              "tracking_number": "USPS123456789",
+              "estimated_delivery": "2025-02-22T12:00:00Z"
+            }
+          },
+          {
+            "order_id": "ORD-005",
+            "date": "2025-02-20T09:30:00Z",
+            "items": [
+              {
+                "product_id": "P-12345",
+                "name": "Laptop",
+                "category": "Electronics",
+                "price": 999.99,
+                "quantity": 1,
+                "warranty": {"duration": "2 years", "coverage": "standard"}
+              }
+            ],
+            "total": 999.99,
+            "status": "pending",
+            "shipping_details": {
+              "carrier": "FedEx",
+              "tracking_number": "FX987654321",
+              "estimated_delivery": "2025-02-25T12:00:00Z"
+            }
+          }
+        ]
+      },
+      {
+        "id": "e5f6g7h8-i9j0-1234-5678-9abcdef01234",
+        "name": "Robert Taylor",
+        "email": "rtaylor@example.com",
+        "profile": {
+          "age": 55,
+          "gender": "male",
+          "preferences": {
+            "newsletter": true,
+            "notifications": ["email"],
+            "theme": "dark",
+            "accessibility": {
+              "font_size": "medium",
+              "high_contrast": false
+            }
+          },
+          "security": {
+            "password_last_changed": "2025-01-10T11:30:00Z",
+            "multi_factor_enabled": false,
+            "login_attempts": [
+              {"timestamp": "2025-02-21T10:15:00Z", "success": true}
+            ]
+          }
+        },
+        "addresses": [
+          {
+            "type": "home",
+            "street": "123 Birch Street",
+            "city": "Denver",
+            "state": "CO",
+            "zip": "80202",
+            "country": "USA",
+            "geo": {"lat": 39.7392, "lng": -104.9903}
+          },
+          {
+            "type": "work",
+            "street": "456 Aspen Court",
+            "city": "Denver",
+            "state": "CO",
+            "zip": "80206",
+            "country": "USA",
+            "geo": {"lat": 39.7392, "lng": -104.9848}
+          }
+        ],
+        "orders": [
+          {
+            "order_id": "ORD-006",
+            "date": "2025-02-15T14:45:00Z",
+            "items": [
+              {
+                "product_id": "P-34567",
+                "name": "Smart Watch",
+                "category": "Wearables",
+                "price": 299.99,
+                "quantity": 2,
+                "warranty": {"duration": "2 years", "coverage": "premium"},
+                "customization": {
+                  "color": "black",
+                  "engraving": "RT2025"
+                }
+              }
+            ],
+            "total": 599.98,
+            "status": "delivered",
+            "shipping_details": {
+              "carrier": "UPS",
+              "tracking_number": "UPS123987456",
+              "estimated_delivery": "2025-02-18T12:00:00Z",
+              "actual_delivery": "2025-02-17T15:30:00Z"
+            },
+            "gift": {
+              "is_gift": true,
+              "message": "Happy Anniversary!",
+              "gift_wrap": true
+            }
+          }
+        ],
+        "subscription": {
+          "plan": "basic",
+          "start_date": "2025-01-01T00:00:00Z",
+          "renewal_date": "2026-01-01T00:00:00Z",
+          "payment_method": "recurring_card",
+          "status": "active"
+        }
       }
     ],
     "products": [
@@ -95,6 +393,59 @@
           "ram": "16GB",
           "storage": "512GB SSD"
         }
+      },
+      {
+        "id": "P-34567",
+        "name": "Smart Watch",
+        "category": "Wearables",
+        "subcategory": "Fitness Trackers",
+        "price": 299.99,
+        "stock": 75,
+        "ratings": {
+          "average": 4.8,
+          "reviews": 250,
+          "breakdown": {
+            "5_star": 180,
+            "4_star": 45,
+            "3_star": 15,
+            "2_star": 7,
+            "1_star": 3
+          }
+        },
+        "specifications": {
+          "display": "AMOLED 1.4 inch",
+          "battery_life": "5 days",
+          "water_resistance": "50m",
+          "sensors": [
+            "heart_rate",
+            "gps",
+            "accelerometer",
+            "gyroscope"
+          ],
+          "compatibility": ["iOS 14+", "Android 10+"]
+        },
+        "variants": [
+          {
+            "color": "rose gold",
+            "sku": "SW-RG-001",
+            "stock": 25
+          },
+          {
+            "color": "black",
+            "sku": "SW-BK-001",
+            "stock": 30
+          },
+          {
+            "color": "silver",
+            "sku": "SW-SL-001",
+            "stock": 20
+          }
+        ],
+        "warranty": {
+          "standard": "1 year",
+          "extended": "3 years",
+          "terms": ["manufacturing defects", "battery replacement"]
+        }
       }
     ],
     "transactions": [
@@ -110,6 +461,121 @@
           "risk_score": 5,
           "flags": ["new_device", "high_amount"]
         }
+      },
+      {
+        "transaction_id": "T-0002",
+        "user_id": "b2c3d4e5-f6g7-8901-2345-6789abcdef01",
+        "order_id": "ORD-002",
+        "payment_method": {
+          "type": "credit_card",
+          "provider": "Visa",
+          "last_four": "4321",
+          "expiry": "12/26"
+        },
+        "amount": 299.99,
+        "currency": "USD",
+        "status": "completed",
+        "timestamp": "2025-02-01T15:35:00Z",
+        "fraud_check": {
+          "risk_score": 2,
+          "verification_steps": ["3d_secure", "address_check"],
+          "flags": [],
+          "ip_address": "192.168.1.100",
+          "device_id": "dev_iphone15_xyz"
+        },
+        "refund_history": []
+      },
+      {
+        "transaction_id": "T-0003",
+        "user_id": "c3d4e5f6-g7h8-9012-3456-789abcdef012",
+        "order_id": "ORD-003",
+        "payment_method": {
+          "type": "credit_card",
+          "provider": "Mastercard",
+          "last_four": "8765",
+          "expiry": "09/26"
+        },
+        "amount": 2099.98,
+        "currency": "USD",
+        "status": "completed",
+        "timestamp": "2025-02-10T11:25:00Z",
+        "fraud_check": {
+          "risk_score": 3,
+          "verification_steps": ["3d_secure", "address_check"],
+          "flags": ["high_amount"],
+          "ip_address": "192.168.1.200",
+          "device_id": "dev_pixel7_abc"
+        },
+        "refund_history": []
+      },
+      {
+        "transaction_id": "T-0004",
+        "user_id": "d4e5f6g7-h8i9-0123-4567-89abcdef0123",
+        "order_id": "ORD-004",
+        "payment_method": {
+          "type": "credit_card",
+          "provider": "Amex",
+          "last_four": "3456",
+          "expiry": "03/27"
+        },
+        "amount": 299.99,
+        "currency": "USD",
+        "status": "completed",
+        "timestamp": "2025-02-18T13:20:00Z",
+        "fraud_check": {
+          "risk_score": 1,
+          "verification_steps": ["3d_secure"],
+          "flags": [],
+          "ip_address": "192.168.1.300",
+          "device_id": "dev_iphone14_def"
+        },
+        "refund_history": []
+      },
+      {
+        "transaction_id": "T-0005",
+        "user_id": "d4e5f6g7-h8i9-0123-4567-89abcdef0123",
+        "order_id": "ORD-005",
+        "payment_method": {
+          "type": "credit_card",
+          "provider": "Visa",
+          "last_four": "9012",
+          "expiry": "11/26"
+        },
+        "amount": 999.99,
+        "currency": "USD",
+        "status": "completed",
+        "timestamp": "2025-02-20T09:35:00Z",
+        "fraud_check": {
+          "risk_score": 1,
+          "verification_steps": ["3d_secure"],
+          "flags": [],
+          "ip_address": "192.168.1.300",
+          "device_id": "dev_iphone14_def"
+        },
+        "refund_history": []
+      },
+      {
+        "transaction_id": "T-0006",
+        "user_id": "e5f6g7h8-i9j0-1234-5678-9abcdef01234",
+        "order_id": "ORD-006",
+        "payment_method": {
+          "type": "credit_card",
+          "provider": "Discover",
+          "last_four": "5678",
+          "expiry": "07/26"
+        },
+        "amount": 599.98,
+        "currency": "USD",
+        "status": "completed",
+        "timestamp": "2025-02-15T14:50:00Z",
+        "fraud_check": {
+          "risk_score": 2,
+          "verification_steps": ["3d_secure", "address_check"],
+          "flags": [],
+          "ip_address": "192.168.1.400",
+          "device_id": "dev_windows_ghi"
+        },
+        "refund_history": []
       }
     ],
     "logs": [
@@ -128,7 +594,175 @@
           "error_code": "PAY-001",
           "description": "Insufficient funds"
         }
+      },
+      {
+        "timestamp": "2025-02-01T15:30:00Z",
+        "level": "INFO",
+        "message": "New order created",
+        "context": {
+          "order_id": "ORD-002",
+          "user_id": "b2c3d4e5-f6g7-8901-2345-6789abcdef01",
+          "total_items": 1
+        },
+        "service": "order_service",
+        "trace_id": "trace_xyz_789"
+      },
+      {
+        "timestamp": "2025-02-01T15:35:00Z",
+        "level": "INFO",
+        "message": "Payment processed successfully",
+        "context": {
+          "transaction_id": "T-0002",
+          "payment_provider": "stripe",
+          "amount": 299.99
+        },
+        "service": "payment_service",
+        "trace_id": "trace_xyz_790"
+      },
+      {
+        "timestamp": "2025-02-04T14:23:00Z",
+        "level": "INFO",
+        "message": "Order delivered",
+        "context": {
+          "order_id": "ORD-002",
+          "carrier": "FedEx",
+          "tracking_number": "FX123456789"
+        },
+        "service": "shipping_service",
+        "trace_id": "trace_xyz_791"
+      },
+      {
+        "timestamp": "2025-02-10T11:20:00Z",
+        "level": "INFO",
+        "message": "New order created",
+        "context": {
+          "order_id": "ORD-003",
+          "user_id": "c3d4e5f6-g7h8-9012-3456-789abcdef012",
+          "total_items": 2
+        },
+        "service": "order_service",
+        "trace_id": "trace_xyz_792"
+      },
+      {
+        "timestamp": "2025-02-10T11:25:00Z",
+        "level": "INFO",
+        "message": "Payment processed successfully",
+        "context": {
+          "transaction_id": "T-0003",
+          "payment_provider": "stripe",
+          "amount": 2099.98
+        },
+        "service": "payment_service",
+        "trace_id": "trace_xyz_793"
+      },
+      {
+        "timestamp": "2025-02-18T13:15:00Z",
+        "level": "INFO",
+        "message": "New order created",
+        "context": {
+          "order_id": "ORD-004",
+          "user_id": "d4e5f6g7-h8i9-0123-4567-89abcdef0123",
+          "total_items": 1
+        },
+        "service": "order_service",
+        "trace_id": "trace_xyz_794"
+      },
+      {
+        "timestamp": "2025-02-18T13:20:00Z",
+        "level": "INFO",
+        "message": "Payment processed successfully",
+        "context": {
+          "transaction_id": "T-0004",
+          "payment_provider": "stripe",
+          "amount": 299.99
+        },
+        "service": "payment_service",
+        "trace_id": "trace_xyz_795"
+      },
+      {
+        "timestamp": "2025-02-20T09:30:00Z",
+        "level": "INFO",
+        "message": "New order created",
+        "context": {
+          "order_id": "ORD-005",
+          "user_id": "d4e5f6g7-h8i9-0123-4567-89abcdef0123",
+          "total_items": 1
+        },
+        "service": "order_service",
+        "trace_id": "trace_xyz_796"
+      },
+      {
+        "timestamp": "2025-02-20T09:35:00Z",
+        "level": "INFO",
+        "message": "Payment processed successfully",
+        "context": {
+          "transaction_id": "T-0005",
+          "payment_provider": "stripe",
+          "amount": 999.99
+        },
+        "service": "payment_service",
+        "trace_id": "trace_xyz_797"
+      },
+      {
+        "timestamp": "2025-02-15T14:45:00Z",
+        "level": "INFO",
+        "message": "New order created",
+        "context": {
+          "order_id": "ORD-006",
+          "user_id": "e5f6g7h8-i9j0-1234-5678-9abcdef01234",
+          "total_items": 2
+        },
+        "service": "order_service",
+        "trace_id": "trace_xyz_798"
+      },
+      {
+        "timestamp": "2025-02-15T14:50:00Z",
+        "level": "INFO",
+        "message": "Payment processed successfully",
+        "context": {
+          "transaction_id": "T-0006",
+          "payment_provider": "stripe",
+          "amount": 599.98
+        },
+        "service": "payment_service",
+        "trace_id": "trace_xyz_799"
+      },
+      {
+        "timestamp": "2025-02-17T15:30:00Z",
+        "level": "INFO",
+        "message": "Order delivered",
+        "context": {
+          "order_id": "ORD-006",
+          "carrier": "UPS",
+          "tracking_number": "UPS123987456"
+        },
+        "service": "shipping_service",
+        "trace_id": "trace_xyz_800"
       }
-    ]
-  }
+    ],
+    "analytics": {
+      "active_users": {
+        "daily": 1500,
+        "weekly": 8500,
+        "monthly": 25000
+      },
+      "popular_products": [
+        {
+          "product_id": "P-12345",
+          "views": 5000,
+          "conversion_rate": 2.5
+        },
+        {
+          "product_id": "P-34567",
+          "views": 3500,
+          "conversion_rate": 3.1
+        }
+      ],
+      "user_retention": {
+        "7_day": 85,
+        "30_day": 65,
+        "90_day": 45
+      }
+    }
+}
   

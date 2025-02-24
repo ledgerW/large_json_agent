@@ -12,6 +12,9 @@ spyql = "^0.9.0"
 langchain-openai = "^0.3.6"
 langgraph-supervisor = "^0.0.3"
 python-dotenv = "^1.0.1"
+pandas = "^2.2.3"
+duckdb = "^1.2.0"
+orjson = "^3.10.15"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
