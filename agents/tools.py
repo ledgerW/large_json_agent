@@ -2,6 +2,7 @@ from smolagents import tool, Tool
 from qdrant_client import QdrantClient
 from langchain_openai import OpenAIEmbeddings
 import duckdb
+import json
 
 # Initialize Qdrant client and embedder
 #qdrant_client = QdrantClient(url="http://localhost:6333")  # Using in-memory storage
@@ -43,6 +44,117 @@ def query_duckdb(db_name: str, query: str) -> str:
         table += "| " + " | ".join(str(val) for val in row) + " |\n"
         
     return table
+
+@tool
+def get_hierarchical_data_info(db_name: str = None) -> str:
+    """
+    Retrieve and display information about the hierarchical structure of a database.
+    This tool provides an overview of the database structure, table hierarchy, table statistics,
+    and relationships between tables.
+    
+    Args:
+        db_name: Name of the DuckDB database to analyze. If not provided, it will use the db_name from additional_args.
+        
+    Returns:
+        str: A formatted string containing detailed information about the hierarchical data structure
+    """
+    try:
+        conn = duckdb.connect(f"{db_name}.duckdb")
+        
+        # Check if this is a hierarchical database with schema_info
+        try:
+            conn.execute("SELECT * FROM schema_info LIMIT 1")
+        except:
+            conn.close()
+            return f"Error: {db_name} does not appear to be a hierarchical database with schema_info table."
+        
+        output = []
+        
+        # Query 1: Get an overview of the data structure
+        output.append("=== Data Overview ===")
+        try:
+            result = conn.execute("SELECT * FROM data_overview").fetchall()
+            for row in result:
+                for col in row:
+                    output.append(str(col))
+        except:
+            output.append("No data overview available.")
+        
+        # Query 2: Show the table hierarchy
+        output.append("\n=== Table Hierarchy ===")
+        result = conn.execute("SELECT level, path, table_name, is_array, count FROM table_hierarchy ORDER BY path").fetchall()
+        output.append("Level | Path | Table Name | Is Array | Count")
+        output.append("-" * 70)
+        for row in result:
+            output.append(f"{row[0]} | {row[1]} | {row[2]} | {row[3]} | {row[4]}")
+        
+        # Query 3: Show table statistics
+        output.append("\n=== Table Statistics ===")
+        result = conn.execute("SELECT table_name, is_array, count AS expected_count, description FROM schema_info ORDER BY table_name").fetchall()
+        output.append("Table Name | Is Array | Expected Count | Description")
+        output.append("-" * 80)
+        for row in result:
+            output.append(f"{row[0]} | {row[1]} | {row[2]} | {row[3]}")
+        
+        # Query 4: Find the root tables (tables with no parent)
+        output.append("\n=== Root Tables ===")
+        root_tables = conn.execute("""
+            SELECT table_name, count, description 
+            FROM schema_info 
+            WHERE parent_table IS NULL
+            ORDER BY table_name
+        """).fetchall()
+        
+        if not root_tables:
+            output.append("No root tables found.")
+        else:
+            output.append("Table Name | Count | Description")
+            output.append("-" * 60)
+            for row in root_tables:
+                output.append(f"{row[0]} | {row[1]} | {row[2]}")
+                
+                # For each root table, show record count comparison
+                try:
+                    table_name = row[0]
+                    raw_count = conn.execute(f"SELECT COUNT(*) FROM \"{table_name}\"").fetchall()
+                    schema_count = row[1]  # Count from schema_info
+                    
+                    output.append(f"\nRecord counts for {table_name}:")
+                    output.append(f"Raw count of records in the {table_name} table: {raw_count[0][0]}")
+                    output.append(f"Expected number according to schema_info: {schema_count}")
+                    if raw_count[0][0] != schema_count:
+                        output.append("The difference is due to the hierarchical structure of the data.")
+                except:
+                    output.append(f"Could not get record count for {table_name}.")
+        
+        # Query 5: Show key relationships between tables
+        output.append("\n=== Table Relationships ===")
+        result = conn.execute("""
+            SELECT 
+                r.parent_table, 
+                r.child_table, 
+                COUNT(*) as relationship_count,
+                s.description
+            FROM record_relationships r
+            JOIN schema_info s ON r.child_table = s.table_name
+            GROUP BY r.parent_table, r.child_table, s.description
+            ORDER BY relationship_count DESC
+            LIMIT 20
+        """).fetchall()
+        
+        if not result:
+            output.append("No relationships found.")
+        else:
+            output.append("Parent Table | Child Table | Relationship Count | Description")
+            output.append("-" * 80)
+            for row in result:
+                output.append(f"{row[0]} | {row[1]} | {row[2]} | {row[3]}")
+        
+        conn.close()
+        return "\n".join(output)
+    
+    except Exception as e:
+        return f"Error analyzing hierarchical data: {str(e)}"
 
 @tool
 def semantic_search(db_name: str, query_text: str, top_k: int = 3) -> str:
