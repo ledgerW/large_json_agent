@@ -31,29 +31,45 @@ def query_json(query: str, json_file_path: str) -> str:
         The query results as a string
     """
     try:
+        # Check if file exists
+        if not os.path.exists(json_file_path):
+            return f"Error: File {json_file_path} not found"
+
         # Read JSON with orjson for better performance
         with open(json_file_path, 'rb') as f:
             data = orjson.loads(f.read())
         
         # Create DuckDB connection
-        con = duckdb.connect()
+        con = duckdb.connect(':memory:')
         
         # Load each top-level section as a separate table
         for section, section_data in data.items():
+            print(f"Processing section: {section}")
+            
             # Handle both single object and list of objects
             if isinstance(section_data, dict):
                 section_data = [section_data]
+            elif not isinstance(section_data, list):
+                print(f"Skipping section {section} - not a dict or list")
+                continue
                 
-            # Use pandas json_normalize to flatten nested structures
-            df = json_normalize(section_data, sep='.')
-            
-            # Register DataFrame as a table with the section name
-            con.register(section, df)
+            try:
+                # Use pandas json_normalize to flatten nested structures
+                df = json_normalize(section_data, sep='.')
+                
+                # Register DataFrame as a table with the section name
+                con.register(section, df)
+                print(f"Successfully registered table: {section}")
+            except Exception as e:
+                print(f"Error processing section {section}: {str(e)}")
+                continue
         
         # Execute query
         result = con.execute(query).df()
         
         # Convert result to string representation
+        if len(result) == 0:
+            return "No results found"
         return result.to_string()
         
     except Exception as e:
@@ -73,12 +89,7 @@ def query_json_tool(
     Arrays are properly maintained as lists where appropriate.
     
     Available tables correspond to the top-level sections in the JSON:
-    - metadata
-    - users
-    - products
-    - transactions
-    - logs
-    - analytics
+    - jobs
     
     You can query across multiple tables using standard SQL JOIN operations.
     """
@@ -167,12 +178,7 @@ Remember to:
 - Consider performance implications when dealing with large nested structures
 
 Available tables correspond to the top-level sections in the JSON:
-- metadata
-- users
-- products
-- transactions
-- logs
-- analytics
+- jobs
 """
 
 # The Schema Agent

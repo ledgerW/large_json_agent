@@ -1,0 +1,878 @@
+{
+  "jobs": [
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "d271add6-483d-48ee-9719-7cd352d3c36d"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-08T22:18:54.141841Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "83d143f6-2d44-482a-8fc2-fd80fbedf13f",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-08T22:19:42.619000Z",
+        "ended_at": "2025-02-08T22:20:12.166000Z",
+        "updated_at": "2025-02-08T22:20:12.179000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 24,
+          "pdf-rawTextLength": 28404,
+          "pdf-mdLength": 28439,
+          "pdf-htmlLength": 0,
+          "pdf-time": 28776,
+          "pdf-ocrTime": 809,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 16960,
+          "pdf-inputTokens": 15126,
+          "pdf-outputTokens": 6628,
+          "pdf-image-ocr-count": 23,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 20,
+          "pdf-image-ocr-empty-count": 19,
+          "pdf-image-ocr-hadText-count": 1,
+          "pdf-image-ocr-pixels": 5778795,
+          "pdf-image-convertTime": 118,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 24,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 24,
+          "pdf-inputTokens-gpt3": 15126,
+          "pdf-outputTokens-gpt3": 6628,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 24,
+          "llama-parse-credit": 72
+        },
+        "day": "2025-02-08",
+        "source": "self-serve",
+        "job_id": "83d143f6-2d44-482a-8fc2-fd80fbedf13f"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "9e06998c-de0d-4d1a-b7ce-892c4e58f44a"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-08T22:13:22.824533Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "88174a69-3145-416a-978e-7349e9e0493a",
+        "status": "PENDING",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 2,
+        "started_at": "2025-02-08T22:17:11.630000Z",
+        "ended_at": null,
+        "updated_at": "2025-02-08T22:17:11.632000Z",
+        "data": null
+      },
+      "usage_metrics": null,
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "d9d5633f-67d2-434f-b825-4ae2c8d69d33"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-08T16:24:54.031620Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "d673cac5-f5b6-410e-b4be-8cbc86d7d068",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 2,
+        "started_at": "2025-02-08T16:25:28.771000Z",
+        "ended_at": "2025-02-08T16:26:11.544000Z",
+        "updated_at": "2025-02-08T16:26:11.556000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 32,
+          "pdf-rawTextLength": 63562,
+          "pdf-mdLength": 55874,
+          "pdf-htmlLength": 0,
+          "pdf-time": 42042,
+          "pdf-ocrTime": 11756,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 15408,
+          "pdf-inputTokens": 24617,
+          "pdf-outputTokens": 12680,
+          "pdf-image-ocr-count": 182,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 177,
+          "pdf-image-ocr-empty-count": 173,
+          "pdf-image-ocr-hadText-count": 4,
+          "pdf-image-ocr-pixels": 120261186,
+          "pdf-image-convertTime": 625,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 32,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 32,
+          "pdf-inputTokens-gpt3": 24617,
+          "pdf-outputTokens-gpt3": 12680,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 32,
+          "llama-parse-credit": 96
+        },
+        "day": "2025-02-08",
+        "source": "self-serve",
+        "job_id": "d673cac5-f5b6-410e-b4be-8cbc86d7d068"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "a5130a2e-1664-4355-846b-631efa5c4415"
+        },
+        "parameters": {
+          "originalFileName": "GZERO Daily_Welcome to GZERO Daily!.pdf"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-08T15:50:45.083043Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "072bd7c4-aeb6-4983-a2ab-db2efdb1daf3",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-08T15:50:45.116000Z",
+        "ended_at": "2025-02-08T15:50:58.089000Z",
+        "updated_at": "2025-02-08T15:50:58.098000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 2,
+          "pdf-rawTextLength": 1947,
+          "pdf-mdLength": 938,
+          "pdf-htmlLength": 0,
+          "pdf-time": 12367,
+          "pdf-ocrTime": 0,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 12054,
+          "pdf-inputTokens": 1308,
+          "pdf-outputTokens": 776,
+          "pdf-image-ocr-count": 0,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 0,
+          "pdf-image-ocr-empty-count": 0,
+          "pdf-image-ocr-hadText-count": 0,
+          "pdf-image-ocr-pixels": 0,
+          "pdf-image-convertTime": 111,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 2,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 2,
+          "pdf-inputTokens-gpt3": 1308,
+          "pdf-outputTokens-gpt3": 776,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 2,
+          "llama-parse-credit": 6
+        },
+        "day": "2025-02-08",
+        "source": "self-serve",
+        "job_id": "072bd7c4-aeb6-4983-a2ab-db2efdb1daf3"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "5a54882a-d377-4771-9170-10b20ba8ecd4"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T20:34:24.534607Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "361642ed-8d93-4dae-a290-520aee7964df",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T20:34:24.565000Z",
+        "ended_at": "2025-02-02T20:34:27.026000Z",
+        "updated_at": "2025-02-02T20:34:27.029000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 1,
+          "pdf-rawTextLength": 15,
+          "pdf-mdLength": 0,
+          "pdf-htmlLength": 0,
+          "pdf-time": 2123,
+          "pdf-ocrTime": 866,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 0,
+          "pdf-inputTokens": 0,
+          "pdf-outputTokens": 0,
+          "pdf-image-ocr-count": 1,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 1,
+          "pdf-image-ocr-empty-count": 1,
+          "pdf-image-ocr-hadText-count": 0,
+          "pdf-image-ocr-pixels": 622080,
+          "pdf-image-convertTime": 111,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 0,
+          "pdf-fastMode-pages": 1,
+          "pdf-real-pages": 1,
+          "pdf-inputTokens-gpt3": 0,
+          "pdf-outputTokens-gpt3": 0,
+          "pdf-fastMode": 1,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 1,
+          "llama-parse-credit": 3
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "361642ed-8d93-4dae-a290-520aee7964df"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "beb0e167-4626-4743-8ad6-fda51fc7dc41"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T20:32:51.061520Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "591941a9-bd95-4bc1-8620-c6b5a20811e7",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T20:32:51.091000Z",
+        "ended_at": "2025-02-02T20:32:53.488000Z",
+        "updated_at": "2025-02-02T20:32:53.490000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 1,
+          "pdf-rawTextLength": 15,
+          "pdf-mdLength": 0,
+          "pdf-htmlLength": 0,
+          "pdf-time": 2079,
+          "pdf-ocrTime": 868,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 0,
+          "pdf-inputTokens": 0,
+          "pdf-outputTokens": 0,
+          "pdf-image-ocr-count": 1,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 1,
+          "pdf-image-ocr-empty-count": 1,
+          "pdf-image-ocr-hadText-count": 0,
+          "pdf-image-ocr-pixels": 622080,
+          "pdf-image-convertTime": 109,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 0,
+          "pdf-fastMode-pages": 1,
+          "pdf-real-pages": 1,
+          "pdf-inputTokens-gpt3": 0,
+          "pdf-outputTokens-gpt3": 0,
+          "pdf-fastMode": 1,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 1,
+          "llama-parse-credit": 3
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "591941a9-bd95-4bc1-8620-c6b5a20811e7"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "a37f65a0-0f68-4ad1-97ec-c906221a754c"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T20:30:01.517362Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "72c9e0b0-9a7a-471c-91f6-095e1dd571a4",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T20:30:01.550000Z",
+        "ended_at": "2025-02-02T20:30:15.593000Z",
+        "updated_at": "2025-02-02T20:30:15.595000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 1,
+          "pdf-rawTextLength": 15,
+          "pdf-mdLength": 0,
+          "pdf-htmlLength": 0,
+          "pdf-time": 13696,
+          "pdf-ocrTime": 12491,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 0,
+          "pdf-inputTokens": 0,
+          "pdf-outputTokens": 0,
+          "pdf-image-ocr-count": 1,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 1,
+          "pdf-image-ocr-empty-count": 1,
+          "pdf-image-ocr-hadText-count": 0,
+          "pdf-image-ocr-pixels": 622080,
+          "pdf-image-convertTime": 110,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 0,
+          "pdf-fastMode-pages": 1,
+          "pdf-real-pages": 1,
+          "pdf-inputTokens-gpt3": 0,
+          "pdf-outputTokens-gpt3": 0,
+          "pdf-fastMode": 1,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 1,
+          "llama-parse-credit": 3
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "72c9e0b0-9a7a-471c-91f6-095e1dd571a4"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "c1e83df9-9002-42e1-bef2-d432c8725bc9"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T17:28:41.218369Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "bac25df8-3b89-4bc8-b027-85a667c809d8",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T17:28:41.246000Z",
+        "ended_at": "2025-02-02T17:28:43.593000Z",
+        "updated_at": "2025-02-02T17:28:43.595000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 1,
+          "pdf-rawTextLength": 547,
+          "pdf-mdLength": 0,
+          "pdf-htmlLength": 0,
+          "pdf-time": 1965,
+          "pdf-ocrTime": 824,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 0,
+          "pdf-inputTokens": 0,
+          "pdf-outputTokens": 0,
+          "pdf-image-ocr-count": 2,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 2,
+          "pdf-image-ocr-empty-count": 2,
+          "pdf-image-ocr-hadText-count": 0,
+          "pdf-image-ocr-pixels": 629184,
+          "pdf-image-convertTime": 118,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 0,
+          "pdf-fastMode-pages": 1,
+          "pdf-real-pages": 2,
+          "pdf-inputTokens-gpt3": 0,
+          "pdf-outputTokens-gpt3": 0,
+          "pdf-fastMode": 1,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 1,
+          "llama-parse-credit": 3
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "bac25df8-3b89-4bc8-b027-85a667c809d8"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "4bedd29e-7e37-4506-ab06-b6d7271be4c4"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T15:55:30.276351Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "92535866-9151-4343-8095-515abab9ba1d",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T15:55:30.308000Z",
+        "ended_at": "2025-02-02T15:56:02.975000Z",
+        "updated_at": "2025-02-02T15:56:02.981000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 31,
+          "pdf-rawTextLength": 64161,
+          "pdf-mdLength": 55119,
+          "pdf-htmlLength": 0,
+          "pdf-time": 32103,
+          "pdf-ocrTime": 10409,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 12484,
+          "pdf-inputTokens": 24062,
+          "pdf-outputTokens": 12570,
+          "pdf-image-ocr-count": 172,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 172,
+          "pdf-image-ocr-empty-count": 168,
+          "pdf-image-ocr-hadText-count": 4,
+          "pdf-image-ocr-pixels": 125578458,
+          "pdf-image-convertTime": 2814,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 31,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 31,
+          "pdf-inputTokens-gpt3": 24062,
+          "pdf-outputTokens-gpt3": 12570,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 31,
+          "llama-parse-credit": 93
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "92535866-9151-4343-8095-515abab9ba1d"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "aecbe6ad-ed92-421c-9da8-6b9549fa2090"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T15:52:02.932743Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "6009d8ee-95d1-4b26-8639-b7ee86731a7d",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T15:52:02.962000Z",
+        "ended_at": "2025-02-02T15:52:23.349000Z",
+        "updated_at": "2025-02-02T15:52:23.351000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 30,
+          "pdf-rawTextLength": 51681,
+          "pdf-mdLength": 54152,
+          "pdf-htmlLength": 0,
+          "pdf-time": 19478,
+          "pdf-ocrTime": 403,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 14436,
+          "pdf-inputTokens": 22790,
+          "pdf-outputTokens": 11979,
+          "pdf-image-ocr-count": 18,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 17,
+          "pdf-image-ocr-empty-count": 13,
+          "pdf-image-ocr-hadText-count": 4,
+          "pdf-image-ocr-pixels": 947610,
+          "pdf-image-convertTime": 116,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 30,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 30,
+          "pdf-inputTokens-gpt3": 22790,
+          "pdf-outputTokens-gpt3": 11979,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 30,
+          "llama-parse-credit": 90
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "6009d8ee-95d1-4b26-8639-b7ee86731a7d"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "d1dfa58a-52b3-41c0-846f-16ffcf58787a"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-02-02T15:50:06.650955Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "e56593bb-f9f8-417e-b94d-073538a62698",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-02-02T15:50:06.677000Z",
+        "ended_at": "2025-02-02T15:50:13.706000Z",
+        "updated_at": "2025-02-02T15:50:13.715000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 2,
+          "pdf-rawTextLength": 390,
+          "pdf-mdLength": 1142,
+          "pdf-htmlLength": 0,
+          "pdf-time": 6381,
+          "pdf-ocrTime": 855,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 4522,
+          "pdf-inputTokens": 830,
+          "pdf-outputTokens": 140,
+          "pdf-image-ocr-count": 2,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 2,
+          "pdf-image-ocr-empty-count": 2,
+          "pdf-image-ocr-hadText-count": 0,
+          "pdf-image-ocr-pixels": 629184,
+          "pdf-image-convertTime": 111,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 2,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 2,
+          "pdf-inputTokens-gpt3": 830,
+          "pdf-outputTokens-gpt3": 140,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 2,
+          "llama-parse-credit": 6
+        },
+        "day": "2025-02-02",
+        "source": "self-serve",
+        "job_id": "e56593bb-f9f8-417e-b94d-073538a62698"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "af11dfac-1fa2-4768-bf3e-f6a224ac627f"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-01-30T13:03:26.121377Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "7752f592-5b83-46d3-bab4-24f2af203075",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-01-30T13:03:26.151000Z",
+        "ended_at": "2025-01-30T13:03:36.938000Z",
+        "updated_at": "2025-01-30T13:03:36.948000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 4,
+          "pdf-rawTextLength": 6995,
+          "pdf-mdLength": 6995,
+          "pdf-htmlLength": 0,
+          "pdf-time": 10133,
+          "pdf-ocrTime": 1201,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 7316,
+          "pdf-inputTokens": 1512,
+          "pdf-outputTokens": 737,
+          "pdf-image-ocr-count": 3,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 3,
+          "pdf-image-ocr-empty-count": 1,
+          "pdf-image-ocr-hadText-count": 2,
+          "pdf-image-ocr-pixels": 915440,
+          "pdf-image-convertTime": 111,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 4,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 4,
+          "pdf-inputTokens-gpt3": 1512,
+          "pdf-outputTokens-gpt3": 737,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 1,
+          "pdf-structuredOutputPages": 4,
+          "pdf-credit": 4,
+          "llama-parse-credit": 12
+        },
+        "day": "2025-01-30",
+        "source": "self-serve",
+        "job_id": "7752f592-5b83-46d3-bab4-24f2af203075"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    },
+    {
+      "job_record": {
+        "job_name": "parse_raw_file_job",
+        "partitions": {
+          "file_parsing_id_partition": "5ed74bef-462e-4b06-aa02-ebf0a1804a5b"
+        },
+        "parameters": {
+          "originalFileName": "input"
+        },
+        "session_id": null,
+        "correlation_id": null,
+        "parent_job_execution_id": null,
+        "user_id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "created_at": "2025-01-30T12:25:44.203340Z",
+        "project_id": "d7dbcc89-6a6b-45ba-b763-83e923eed637",
+        "id": "b4febdec-d12e-4f94-be9b-88222c3bb2ca",
+        "status": "SUCCESS",
+        "error_code": null,
+        "error_message": null,
+        "attempts": 1,
+        "started_at": "2025-01-30T12:25:53.502000Z",
+        "ended_at": "2025-01-30T12:26:09.718000Z",
+        "updated_at": "2025-01-30T12:26:09.737000Z",
+        "data": null
+      },
+      "usage_metrics": {
+        "feature_usage": {
+          "pdf-pages": 4,
+          "pdf-rawTextLength": 6560,
+          "pdf-mdLength": 4670,
+          "pdf-htmlLength": 0,
+          "pdf-time": 15339,
+          "pdf-ocrTime": 1710,
+          "pdf-pdfToHTMLTime": 0,
+          "pdf-llmTime": 9720,
+          "pdf-inputTokens": 2600,
+          "pdf-outputTokens": 1450,
+          "pdf-image-ocr-count": 3,
+          "pdf-image-ocr-failed-count": 0,
+          "pdf-image-ocr-success-count": 3,
+          "pdf-image-ocr-empty-count": 1,
+          "pdf-image-ocr-hadText-count": 2,
+          "pdf-image-ocr-pixels": 1887376,
+          "pdf-image-convertTime": 444,
+          "pdf-multimodal-time": 0,
+          "pdf-multimodal-pdf2Image": 0,
+          "pdf-cacheHit": 0,
+          "pdf-no-data-error": 0,
+          "pdf-job": 1,
+          "pdf-xlsx-job": 0,
+          "pdf-gpt3-pages": 4,
+          "pdf-fastMode-pages": 0,
+          "pdf-real-pages": 4,
+          "pdf-inputTokens-gpt3": 2600,
+          "pdf-outputTokens-gpt3": 1450,
+          "pdf-fastMode": 0,
+          "pdf-structuredOutputJob": 0,
+          "pdf-structuredOutputPages": 0,
+          "pdf-credit": 4,
+          "llama-parse-credit": 12
+        },
+        "day": "2025-01-30",
+        "source": "self-serve",
+        "job_id": "b4febdec-d12e-4f94-be9b-88222c3bb2ca"
+      },
+      "user": {
+        "id": "fb:OVGykFv9M0gDExyDSpRzkCRBTrn2",
+        "name": "Ledger West"
+      }
+    }
+  ],
+  "total_count": 13,
+  "limit": 100,
+  "offset": 0
+}
