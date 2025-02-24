@@ -9,14 +9,75 @@ import duckdb
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import tool
-from typing import Annotated
+from typing import Annotated, Dict
+from pathlib import Path
 
-
-# Load model
+# Initialize model
 model = ChatOpenAI(model="gpt-4o")
 
+# Global storage
+db_connections: Dict[str, duckdb.DuckDBPyConnection] = {}
+initialized_data: Dict[str, Dict] = {}  # Store loaded JSON data
+db_tables: Dict[str, list] = {}  # Store table names for each database
 
-def query_json(query: str, json_file_path: str) -> str:
+def initialize_databases():
+    """Initialize databases for all JSON files in the data directory."""
+    data_dir = Path("data")
+    if not data_dir.exists():
+        raise Exception("Data directory not found")
+    
+    for json_file in data_dir.glob("*.json"):
+        db_name = json_file.stem  # Use filename without extension as db name
+        
+        # Skip if already initialized
+        if db_name in db_connections:
+            continue
+            
+        try:
+            # Create database connection with unique file per database
+            db_dir = Path('/tmp/duckdb_dbs')
+            db_dir.mkdir(parents=True, exist_ok=True)
+            db_path = db_dir / f'{db_name}.db'
+            conn = duckdb.connect(str(db_path), read_only=False)
+            db_connections[db_name] = conn
+            
+            # Load JSON data
+            with open(json_file, 'rb') as f:
+                data = orjson.loads(f.read())
+            initialized_data[db_name] = data
+            
+            # Initialize tables list for this database
+            db_tables[db_name] = []
+            
+            # Load tables
+            for section, section_data in data.items():
+                if isinstance(section_data, dict):
+                    section_data = [section_data]
+                elif not isinstance(section_data, list):
+                    continue
+                    
+                try:
+                    df = json_normalize(section_data, sep='.')
+                    conn.register(section, df)
+                    db_tables[db_name].append(section)
+                    print(f"Initialized table {section} in database {db_name}")
+                except Exception as e:
+                    print(f"Error processing section {section} in {db_name}: {str(e)}")
+                    continue
+                    
+            print(f"Successfully initialized database: {db_name}")
+            
+        except Exception as e:
+            print(f"Error initializing database {db_name}: {str(e)}")
+            continue
+
+def get_named_db(db_name: str) -> duckdb.DuckDBPyConnection:
+    """Get an initialized DuckDB connection."""
+    if db_name not in db_connections:
+        raise ValueError(f"Database {db_name} not initialized")
+    return db_connections[db_name]
+
+def query_json(query: str, db_name: str) -> str:
     """
     Query JSON data using DuckDB with each top-level section loaded as a separate table.
     
@@ -31,38 +92,8 @@ def query_json(query: str, json_file_path: str) -> str:
         The query results as a string
     """
     try:
-        # Check if file exists
-        if not os.path.exists(json_file_path):
-            return f"Error: File {json_file_path} not found"
-
-        # Read JSON with orjson for better performance
-        with open(json_file_path, 'rb') as f:
-            data = orjson.loads(f.read())
-        
-        # Create DuckDB connection
-        con = duckdb.connect(':memory:')
-        
-        # Load each top-level section as a separate table
-        for section, section_data in data.items():
-            print(f"Processing section: {section}")
-            
-            # Handle both single object and list of objects
-            if isinstance(section_data, dict):
-                section_data = [section_data]
-            elif not isinstance(section_data, list):
-                print(f"Skipping section {section} - not a dict or list")
-                continue
-                
-            try:
-                # Use pandas json_normalize to flatten nested structures
-                df = json_normalize(section_data, sep='.')
-                
-                # Register DataFrame as a table with the section name
-                con.register(section, df)
-                print(f"Successfully registered table: {section}")
-            except Exception as e:
-                print(f"Error processing section {section}: {str(e)}")
-                continue
+        # Get initialized database connection
+        con = get_named_db(db_name)
         
         # Execute query
         result = con.execute(query).df()
@@ -76,27 +107,35 @@ def query_json(query: str, json_file_path: str) -> str:
         return f"Error querying JSON: {str(e)}"
 
 
-@tool("query_json_data")
-def query_json_tool(
-    query: Annotated[str, """The DuckDB SQL query to execute against the available tables. Uses standard SQL syntax."""],
-    json_file_path: Annotated[str, "Path to the JSON file to query"]
-) -> Annotated[str, "Query results as a string"]:
-    """
-    Use this tool to query the JSON data file using SQL via DuckDB.
+def create_query_json_tool(db_name: str):
+    """Create a query_json_tool for a specific database."""
+    @tool("query_json_data")
+    def query_json_tool(
+        query: Annotated[str, """The DuckDB SQL query to execute against the available tables. Uses standard SQL syntax."""]
+    ) -> Annotated[str, "Query results as a string"]:
+        """
+        Use this tool to query the JSON data file using SQL via DuckDB.
+        
+        The JSON data is automatically loaded with each top-level section as a separate table.
+        Nested objects and arrays within each section are expanded into columns using dot notation.
+        Arrays are properly maintained as lists where appropriate.
+        
+        Available tables in database '{db_name}':
+        {db_tables.get(db_name, [])}
+        
+        You can query across multiple tables using standard SQL JOIN operations.
+        """
+        return query_json(query, db_name)
     
-    The JSON data is automatically loaded with each top-level section as a separate table.
-    Nested objects and arrays within each section are expanded into columns using dot notation.
-    Arrays are properly maintained as lists where appropriate.
-    
-    Available tables correspond to the top-level sections in the JSON:
-    - jobs
-    
-    You can query across multiple tables using standard SQL JOIN operations.
-    """
-    return query_json(query, json_file_path)
+    return query_json_tool
 
 
-system_prompt = """
+def get_system_prompt(db_name: str) -> str:
+    """Generate system prompt for a specific database."""
+    tables = db_tables.get(db_name, [])
+    sections_str = "\n".join([f"- {table}" for table in tables])
+    
+    return f"""
 You are an expert JSON data analyst specializing in SQL queries over complex nested JSON data structures.
 You have access to a JSON schema and a JSON data file, which you'll use to answer questions about the data.
 
@@ -177,14 +216,30 @@ Remember to:
 - Use appropriate array functions (UNNEST, ARRAY_AGG, ARRAY_LENGTH) for nested data
 - Consider performance implications when dealing with large nested structures
 
-Available tables correspond to the top-level sections in the JSON:
-- jobs
+
+Database: {db_name}
+
+Available tables in this database:
+{sections_str}
 """
 
-# The Schema Agent
-large_json_agent = create_react_agent(
-    model=model,
-    tools=[query_json_tool],
-    name="large_json_analyst",
-    prompt=system_prompt
-)
+def get_json_agent(db_name: str = "default"):
+    """Create a JSON agent for a specific named database."""
+    query_tool = create_query_json_tool(db_name)
+    prompt = get_system_prompt(db_name)
+    
+    return create_react_agent(
+        model=model,
+        tools=[query_tool],
+        name=f"large_json_analyst_{db_name}",
+        prompt=prompt
+    )
+
+# Initialize databases during module import
+initialize_databases()
+
+# Create agents for each database
+json_agents = {db_name: get_json_agent(db_name) for db_name in db_connections}
+
+# Create default agent for backward compatibility (using llamacloud database)
+large_json_agent = json_agents.get("llamacloud")
