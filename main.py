@@ -1,35 +1,55 @@
 from pydantic import BaseModel
-from typing import Union, Any
+from typing import Union, Any, Dict, List
 import json
+import os
+import duckdb
+import glob
 
 from fastapi import FastAPI
 
-from agents.duckdb_json_agent import large_json_agent, json_agents, db_connections
+from agents.smolagent import task_agent
 from fastapi import HTTPException
+from data_prep import index_json
+from qdrant_client import QdrantClient
+from langchain_openai import OpenAIEmbeddings
 
+# Initialize Qdrant client and embedder
+#qdrant_client = QdrantClient(url="http://localhost:6333")  # Using in-memory storage
+embedder = OpenAIEmbeddings(model="text-embedding-3-small")
 
+# Load JSON files at startup
+def load_json_files():
+    data_dir = "data"
+    for filename in os.listdir(data_dir):
+        if filename.endswith('.json'):
+            db_name = os.path.splitext(filename)[0]
+            file_path = os.path.join(data_dir, filename)
+            # Create Qdrant collection for this file
+            #qdrant_client.recreate_collection(
+            #    collection_name=db_name,
+            #    vectors_config={"size": 1536, "distance": "Cosine"}  # OpenAI embeddings are 1536 dimensions
+            # )
+            with open(file_path, 'r') as f:
+                json_data = json.load(f)
+                index_json(db_name, json_data, db_name, embedder)
+                print(f"Loaded and indexed {filename} into collection {db_name}")
+
+# Initialize FastAPI app
 app = FastAPI()
 
+# Load JSON files when the application starts
+@app.on_event("startup")
+async def startup_event():
+    load_json_files()
 
 
-class UserInput(BaseModel):
-    user_input: str
+
+class TaskInput(BaseModel):
+    task: str
     db_name: str
 
-
-class MessageContent(BaseModel):
-    role: str
-    content: str
-
-
-class Messages(BaseModel):
-    messages: list[Any]
-
-
-class QueryOutput(BaseModel):
-    message_history: Messages
-    final_answer: Any
-
+class TaskOutput(BaseModel):
+    output: Any
 
 
 @app.get("/")
@@ -37,100 +57,55 @@ def read_root():
     return {"Hello": "World"}
 
 
+def get_database_info() -> Dict[str, List[str]]:
+    """
+    Scan for DuckDB databases and return their table information.
+    Returns a dictionary with database names as keys and lists of table names as values.
+    """
+    database_info = {}
+    
+    # Find all .duckdb files in the current directory and subdirectories
+    duckdb_files = glob.glob("**/*.duckdb", recursive=True)
+    
+    for db_path in duckdb_files:
+        try:
+            # Connect to the database
+            conn = duckdb.connect(db_path, read_only=True)
+            
+            # Get all tables in the database
+            tables = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'main'").fetchall()
+            
+            # Store the database name and its tables
+            db_name = os.path.basename(db_path)
+            database_info[db_name] = [table[0] for table in tables]
+            
+            # Close the connection
+            conn.close()
+        except Exception as e:
+            print(f"Error accessing database {db_path}: {str(e)}")
+            continue
+    
+    return database_info
+
 @app.get("/databases")
 def list_databases():
-    """List all available database instances."""
-    return {"databases": list(db_connections.keys())}
-
-@app.post("/query_json", response_model=QueryOutput)
-async def query_json(user_input: UserInput):
-    """Query JSON using the default database instance (llamacloud)."""
-    USER_INPUT_TEMPLATE = f"""
-Question: {user_input.user_input}
-"""
-
-    input = {
-        "messages": [
-            {
-                "role": "user",
-                "content": USER_INPUT_TEMPLATE
-            }
-        ]
-    }
-
-    def print_stream(stream):
-        stream_output = []
-        for s in stream:
-            message = s["messages"][-1]
-            # Print message based on its type
-            if isinstance(message, tuple):
-                print(message)
-            else:
-                message.pretty_print()
-            stream_output.append(Messages(messages=[message]))
-        
-        # Get the final message
-        final_message = stream_output[-1].messages[-1]
-        
-        # Combine all messages into message history
-        all_messages = []
-        for output in stream_output:
-            all_messages.extend(output.messages)
-        
-        return QueryOutput(
-            message_history=Messages(messages=all_messages),
-            final_answer=final_message
-        )
-
-    stream = large_json_agent.stream(input, stream_mode="values")
-    return print_stream(stream)
-    #return await large_json_agent.ainvoke(query_input)
+    """List all available database instances and their tables."""
+    return {"databases": get_database_info()}
 
 
-@app.post("/query_named_json", response_model=QueryOutput)
-async def query_named_json(user_input: UserInput):
-    """Query JSON using a named database instance."""
-    if user_input.db_name not in json_agents:
-        raise HTTPException(status_code=404, detail=f"Database '{user_input.db_name}' not found. Available databases: {list(db_connections.keys())}")
+@app.post("/task_agent", response_model=TaskOutput)
+def run_task_agent(input: TaskInput) -> TaskOutput:
+    """Execute a task using the task agent that combines SQL and semantic search capabilities"""
+    #try:
+    task_template = f"""
+    Your task is to answer the question as best you can.
+    All of your queries will be executed on the database below.
     
-    agent = json_agents[user_input.db_name]
+    DB Name: {input.db_name}.
     
-    USER_INPUT_TEMPLATE = f"""
-Question: {user_input.user_input}
-"""
-
-    input = {
-        "messages": [
-            {
-                "role": "user",
-                "content": USER_INPUT_TEMPLATE
-            }
-        ]
-    }
-
-    def print_stream(stream):
-        stream_output = []
-        for s in stream:
-            message = s["messages"][-1]
-            # Print message based on its type
-            if isinstance(message, tuple):
-                print(message)
-            else:
-                message.pretty_print()
-            stream_output.append(Messages(messages=[message]))
-        
-        # Get the final message
-        final_message = stream_output[-1].messages[-1]
-        
-        # Combine all messages into message history
-        all_messages = []
-        for output in stream_output:
-            all_messages.extend(output.messages)
-        
-        return QueryOutput(
-            message_history=Messages(messages=all_messages),
-            final_answer=final_message
-        )
-
-    stream = agent.stream(input, stream_mode="values")
-    return print_stream(stream)
+    Question: {input.task}
+    """
+    result = task_agent.run(task_template)
+    return TaskOutput(output=result)
+    #except Exception as e:
+    #    raise HTTPException(status_code=500, detail=str(e))
